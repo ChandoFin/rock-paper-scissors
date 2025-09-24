@@ -30,55 +30,130 @@ function getComputerChoice() {
     }
 }
     
-function getHumanChoice() { 
-    return prompt("enter rock, paper, or scissors:").toLowerCase();
-    
-}
+
 
 
 let humanScore = 0;
 
 let computerScore = 0;
 
-function playGame() {
+function playRound(humanChoice, computerChoice) {
+    if (humanChoice === computerChoice) {
+        return `it's a draw! you both chose ${humanChoice}!`;
+    }
 
-        function playRound(humanChoice, computerChoice) {
-        if (humanChoice === computerChoice) {
-            return `it's a draw! you both chose ${humanChoice}!`;
+    else if (
+        (humanChoice === 'rock' && computerChoice === 'scissors') ||
+        (humanChoice === 'scissors' && computerChoice === 'paper') ||
+        (humanChoice === 'paper' && computerChoice === 'rock')
+    )
+        {
+            humanScore++; 
+            return `You win! ${humanChoice} beats ${computerChoice}!`;
         }
     
-        else if (
-            (humanChoice === 'rock' && computerChoice === 'scissors') ||
-            (humanChoice === 'scissors' && computerChoice === 'paper') ||
-            (humanChoice === 'paper' && computerChoice === 'rock')
-        )
-            {
-                humanScore++; 
-                return `You win! ${humanChoice} beats ${computerChoice}!`;
-            }
-        
-        else if (
-            (computerChoice === 'rock' && humanChoice === 'scissors') ||
-            (computerChoice === 'paper' && humanChoice === 'rock') ||
-            (computerChoice === 'scissors' && humanChoice === 'paper')
-        )
-            {
-                computerScore++;
-                return `You lose! ${computerChoice} beats ${humanChoice}!`;
+    else if (
+        (computerChoice === 'rock' && humanChoice === 'scissors') ||
+        (computerChoice === 'paper' && humanChoice === 'rock') ||
+        (computerChoice === 'scissors' && humanChoice === 'paper')
+    )
+        {
+            computerScore++;
+            return `You lose! ${computerChoice} beats ${humanChoice}!`;
 
-            }
-        
-    }
+        }
 
-      for (let i = 0; i < 5; i++) {
-        const humanSelection = getHumanChoice();
-        const computerSelection = getComputerChoice();
-        const result = playRound(humanSelection, computerSelection);
-        console.log(`Round ${i+1}: ${result}`);
-    }
-    console.log(`Final Score - You: ${humanScore}, Computer: ${computerScore}`);
+    
+        
+};
+
+function gameOver() {
+    if (humanScore === 5 || computerScore === 5) {
+        
+        if (results) {
+            const finalMessage = document.createElement("p");
+            
+            finalMessage.textContent = "Game Over!";
+
+            results.appendChild(finalMessage);
+
+        }
+
+        
+    } 
 }
 
+function resetGame() {
+    if (humanScore === 5 || computerScore === 5) {   
+        humanScore = 0;
+        computerScore = 0;
+    }
+};
 
 
-console.log(playGame());
+
+
+
+
+const scissorsBtn = document.getElementById("scissorsBtn");
+
+const rockBtn = document.getElementById("rockBtn");
+
+const paperBtn = document.getElementById("paperBtn");
+
+scissorsBtn.addEventListener("click", () => handleClick("scissors"));/*{
+  //  console.log("scissors");
+}); */
+
+rockBtn.addEventListener("click", () => handleClick("rock"));
+    
+
+paperBtn.addEventListener("click", () => handleClick("paper"));
+    
+
+function handleClick(humanChoice) {
+    const computerChoice = getComputerChoice();
+    const result = playRound(humanChoice, computerChoice);
+    const results = document.getElementById("results");
+    
+    const div = document.createElement("div");
+
+    div.textContent = result;
+
+    results.appendChild(div);
+
+    updateScore();
+
+    gameOver();
+
+    resetGame();
+
+    
+};
+
+
+function updateScore() {
+
+        if(results) {
+            const updateScoreHuman = document.createElement("div");
+
+            updateScoreHuman.textContent = `score: ${humanScore}`;
+
+            results.appendChild(updateScoreHuman);
+
+            const updateScoreComputer = document.createElement("div");
+
+            updateScoreComputer.textContent = `computer Score: ${computerScore}`;
+
+            results.appendChild(updateScoreComputer);
+        };    
+    };   
+
+const finalMessage = document.createElement("p");
+
+
+
+
+
+
+
